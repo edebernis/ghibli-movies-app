@@ -5,7 +5,7 @@ services:
     ports:
       - 8000:8000
     environment:
-      - TEMPLATES_DIR=templates
+      - GHIBLI_API_URL=https://ghibliapi.herokuapp.com
       - DEBUG=1
     volumes:
       - ${PWD}:/app

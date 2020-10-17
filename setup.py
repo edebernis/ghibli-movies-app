@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 
 version = re.search(r'^__version__\s*=\s*"(.*)"',
-                    open('ghibli/__init__.py').read(), re.M) \
+                    open('ghibli/app.py').read(), re.M) \
             .group(1)
 
 
@@ -26,6 +26,7 @@ setup(
     ],
     tests_require=[
         'pytest>=5.4.1',
-        'mock>=4.0.2'
+        'mock>=4.0.2',
+        'webtest>=2.0.35'
     ]
 )
