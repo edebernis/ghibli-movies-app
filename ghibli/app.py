@@ -44,7 +44,7 @@ def create_api():
     return GhibliAPI.create(url)
 
 
-def create_templates():
+def load_templates():
     templates_dirpath = os.environ.get('TEMPLATES_DIR', 'templates')
     if not os.path.exists(templates_dirpath):
         raise Exception('Templates directory "{}" does not exist'
@@ -64,6 +64,7 @@ def create_templates():
 
 def create_app():
     app = Bottle()
+    templates = load_templates()
 
     def _error(code, err):
         response.content_type = 'application/json; charset=utf-8'
@@ -96,7 +97,6 @@ def create_app():
     @app.get('/movies')
     def get_movies():
         global db
-        global templates
 
         tpl = templates.get('movies')
         if tpl is None:
@@ -119,14 +119,14 @@ def update_movies():
 
 def start_background_thread():
     try:
-        movies_interval = int(os.environ.get('FETCH_MOVIES_INTERVAL', 60))
+        interval = int(os.environ.get('UPDATES_INTERVAL', 60))
     except ValueError:
         raise Exception(
-            'FETCH_MOVIES_INTERVAL environment variable must be an integer'
+            'UPDATES_INTERVAL environment variable must be an integer'
         )
-    if movies_interval < 10:
+    if interval < 10:
         raise Exception(
-            'FETCH_MOVIES_INTERVAL environment variable must be >= 15 seconds'
+            'UPDATES_INTERVAL environment variable must be >= 15 seconds'
         )
 
     def run_background_task():
@@ -134,7 +134,7 @@ def start_background_thread():
             update_movies()
 
         global background_thread
-        background_thread = Timer(movies_interval, run_background_task)
+        background_thread = Timer(interval, run_background_task)
         background_thread.start()
 
     run_background_task()
@@ -146,11 +146,10 @@ def stop_background_thread():
     background_thread.cancel()
 
 
-# Main
-setup_logging()
+if __name__.startswith('uwsgi'):
+    setup_logging()
 
-api = create_api()
-templates = create_templates()
-app = application = create_app()
+    api = create_api()
+    app = application = create_app()
 
-start_background_thread()
+    start_background_thread()

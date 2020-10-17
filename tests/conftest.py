@@ -5,7 +5,18 @@ from pytest import fixture
 
 
 @fixture
+def app():
+    from ghibli.app import create_app
+
+    return create_app()
+
+
+@fixture
 def api(requests_mock):
+    from ghibli.app import create_api
+
+    api = create_api()
+
     requests_mock.get(
         'https://ghibliapi.herokuapp.com/films',
         text=open('tests/mocks/films.json').read()
@@ -15,15 +26,4 @@ def api(requests_mock):
         text=open('tests/mocks/people.json').read()
     )
 
-    from ghibli.app import api, stop_background_thread
-
-    stop_background_thread()
     return api
-
-
-@fixture
-def app():
-    from ghibli.app import app, stop_background_thread
-
-    stop_background_thread()
-    return app
