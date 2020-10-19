@@ -3,9 +3,10 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Ghibli Movies</title>
+        <title>Studio Ghibli Movies</title>
     </head>
     <body>
+        <h2>Studio Ghibli movies</h2>
         <ul>
         % if movies:
           % for movie in movies.values():
