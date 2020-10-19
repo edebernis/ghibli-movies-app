@@ -1,5 +1,5 @@
 # ghibli-movies-app
-uWSGI web application that list movies produced by Ghibli studios, compatible Python 3.8+.
+uWSGI Python web application, compatible Python 3.8+, that list movies produced by Ghibli studios.
 
 ## Description
 
@@ -7,7 +7,7 @@ Studio Ghibli is a Japanese movie company. This application relies on their REST
 
 ## Architecture
 
-Ghibli application is built using [Bottle web framework](https://bottlepy.org/docs/0.12/).
+Ghibli application is a Python web application built using [Bottle web framework](https://bottlepy.org/docs/0.12/).
 
 ## Usage
 
@@ -20,9 +20,9 @@ $ docker-compose up
 ## Environment variables
 
 Following environment variables are configurable:
-* GHIBLI_API_URL: URL to Ghibli REST API
-* TEMPLATES_DIR: Path to templates directory
-* UPDATES_INTERVAL: Interval between data updates
+* GHIBLI_API_URL: URL of Ghibli REST API
+* TEMPLATES_DIR: Path to HTML templates directory
+* UPDATES_INTERVAL: Interval in seconds between data updates
 * DEBUG: Enable debug mode
 
 ## Tests
@@ -32,3 +32,5 @@ Ghibli app uses [Pytest](https://docs.pytest.org/en/latest/) and [Tox](https://t
 ```bash
 $ tox
 ```
+
+Tests could be extended with integration testing, to make sure Ghibli REST API is still up and response formats do not change.
